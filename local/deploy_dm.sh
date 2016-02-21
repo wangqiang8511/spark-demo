@@ -22,6 +22,7 @@ function create-mesos-master-machine {
 	docker-machine create \
 		-d virtualbox \
 		--virtualbox-memory "$MASTER_MEMORY_SIZE" \
+		--virtualbox-cpu-count "2" \
     $MASTER_TARGET
 }
 
@@ -30,6 +31,7 @@ function create-mesos-slave-machine {
 	docker-machine create \
 		-d virtualbox \
 		--virtualbox-memory "$SLAVE_MEMORY_SIZE" \
+		--virtualbox-cpu-count "2" \
     $SLAVE_TARGET_PREFIX$1
 }
 
@@ -134,11 +136,15 @@ function start-mesos-slave {
 		--privileged \
 		--net host \
 		--restart always \
+		-v /usr/local/bin/docker:/usr/bin/docker:ro \
+		-v /var/run/docker.sock:/var/run/docker.sock:rw \
+		-v /sys:/sys:ro \
 		mesosphere/mesos-slave:0.27.0-0.2.190.ubuntu1404 \
 		--master=zk://$MASTER_IP:2181/mesos \
 		--hostname=$CURRENT_IP \
 		--ip=$CURRENT_IP \
-		--no-hostname_lookup
+		--no-hostname_lookup \
+	  --containerizers=docker,mesos
 }
 
 function start-mesos-slaves {
@@ -148,15 +154,26 @@ function start-mesos-slaves {
 	done
 }
 
+function pull-spark-image {
+	docker-machine ssh $MASTER_TARGET \
+		"docker pull wangqiang8511/spark-mesos:1.6.0-0.27.0"
+	for (( c=0; c<$SLAVE_SIZE; c++ ))
+	do
+		docker-machine ssh $SLAVE_TARGET_PREFIX$c \
+			"docker pull wangqiang8511/spark-mesos:1.6.0-0.27.0"
+	done
+}
+
 function bootstrap {
-	create-mesos-master-machine
-	create-mesos-slave-machines
-	start-zk
-	start-mesos-master
-	start-marathon
-	start-chronos
-	start-mesos-slaves
-	update-all-etc-hosts
+	# create-mesos-master-machine
+	# create-mesos-slave-machines
+	# start-zk
+	# start-mesos-master
+	# start-marathon
+	# start-chronos
+	# start-mesos-slaves
+	# update-all-etc-hosts
+	pull-spark-image
 }
 
 if [ X$1 == "Xteardown" ]

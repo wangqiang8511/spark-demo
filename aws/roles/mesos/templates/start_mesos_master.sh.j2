@@ -1,5 +1,6 @@
 #!/bin/bash
 
+MESOS_WORK_DIR_MASTER=/data/mesos/master
 CONTAINER_NAME=mesos-master
 ZK_HOSTS=zk://{%- for host in groups['role=master'] -%}
 {{ hostvars[host]['private_ipv4'] }}:2181,
@@ -7,10 +8,13 @@ ZK_HOSTS=zk://{%- for host in groups['role=master'] -%}
 
 ZK_HOSTS=${ZK_HOSTS::-1}
 
+mkdir -p $MESOS_WORK_DIR_MASTER
+
 docker rm -f $CONTAINER_NAME
 docker run --name $CONTAINER_NAME \
     -i \
     --net=host \
+		-v $MESOS_WORK_DIR_MASTER:/var/lib/mesos/master:rw \
     {{ mesos_master_image }}:{{ mesos_master_image_tag }} \
 		--zk=$ZK_HOSTS/mesos \
 		--work_dir=/var/lib/mesos/master \
