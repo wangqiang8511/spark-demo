@@ -49,11 +49,6 @@ docker-machine ip mesos-master
 * Create an instance profile (IAM role) with s3 read/write permission.
 * Create s3 bucket for exhibitor config sync.
 
-# Deploy the toy on local
-
-The local deployment is based on virtualbox and docker-machine
-These two softwares are required to be installed.
-
 After this you can 
 
 ```bash
