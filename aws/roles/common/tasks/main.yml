@@ -1,0 +1,14 @@
+---
+- include: pkg_install_debian.yml
+
+- include: ip_forward.yml
+
+- include: ulimit.yml
+
+- include: supervisord.yml
+
+- include: lvm.yml
+
+- include: boto.yml
+
+- include: rc_local.yml

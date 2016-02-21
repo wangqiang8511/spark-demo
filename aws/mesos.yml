@@ -1,0 +1,35 @@
+---
+- hosts: all
+  roles:
+    - common
+    - docker
+
+- hosts: role=master
+  roles:
+    - exhibitor
+
+- hosts: all
+  vars:
+    seconds: 30
+  roles:
+    - pause
+
+- hosts: role=master
+  vars:
+    mesos_mode: master
+  roles:
+    - mesos
+
+- hosts: "role=master:role=worker"
+  vars:
+    mesos_mode: slave
+  roles:
+    - mesos
+
+- hosts: role=master
+  roles:
+    - marathon
+
+- hosts: role=master
+  roles:
+    - chronos

@@ -1,0 +1,42 @@
+---
+- name: Check available device
+  sudo: yes
+  shell: |
+    thres=/dev/xvde
+    ds=""
+    for i in /dev/xvd*
+    do  
+        if [ "$i" \> "$thres" ]; then
+            if [ "X$ds" = "X" ]; then
+                ds="$i"
+            else
+                ds="$ds,$i"
+            fi
+        fi
+    done
+    echo $ds
+  register: result
+
+- name: create volume group 
+  sudo: yes
+  lvg: "vg={{ lvm_vg_name }} pvs={{ result['stdout'] }} pesize=32"
+
+- name: create logical volumes
+  sudo: yes
+  lvol: "vg={{ lvm_vg_name }} lv={{ item.name }} size={{ item.size }}"
+  with_items: "{{ lvol_list }}"
+
+- name: make fs
+  sudo: yes
+  filesystem: fstype=ext4 dev="/dev/{{ lvm_vg_name }}/{{ item.name }}"
+  with_items: "{{ lvol_list }}"
+
+- name: create mount directory if needed
+  sudo: yes
+  file: path="{{ item.mount_point }}" state=directory  
+  with_items: "{{  lvol_list }}"
+
+- name: mount the lvm volumes
+  sudo: yes
+  mount: name="{{ item.mount_point }}" src="/dev/{{ lvm_vg_name }}/{{ item.name }}" fstype=ext4 state=mounted
+  with_items: "{{ lvol_list }}"

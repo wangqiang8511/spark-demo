@@ -1,0 +1,17 @@
+#!/bin/bash
+
+CONTAINER_NAME=exhibitor
+
+docker rm -f $CONTAINER_NAME
+docker run --name $CONTAINER_NAME \
+    -i \
+    --net=host \
+    -v /data/zookeeper:/data/zookeeper:rw \
+    -e SIZE={{ exhibitor_size }} \
+    {{ exhibitor_image }}:{{ exhibitor_image_tag }} \
+    java -jar exhibitor-1.5.5.jar \
+    -c s3 \
+    --s3region "{{ exhibitor_s3_region }}" \
+    --s3config "{{ exhibitor_s3_bucket }}:{{ exhibitor_config_prefix }}/{{ cluster_name }}" \
+    --s3configprefix "{{ cluster_name }}" \
+    --defaultconfig conf/exhibitor.conf

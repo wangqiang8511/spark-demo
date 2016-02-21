@@ -1,0 +1,26 @@
+---
+- name: install pip
+  sudo: yes
+  shell: "wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py && python /tmp/get-pip.py"
+  tags:
+    - bootstrap
+
+- name: add openjdk ppa
+  sudo : yes
+  apt_repository: repo='ppa:openjdk-r/ppa'
+  tags:
+    - bootstrap
+
+- name: install system pkgs
+  sudo: yes
+  apt: "pkg={{ item }} state=present update_cache=yes cache_valid_time=3600"
+  with_items: system_pkgs_debian
+  tags:
+    - bootstrap
+
+# Setup correct java version
+- name: correct java version selected
+  sudo: yes
+  alternatives: 
+    name: java 
+    path: "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java"

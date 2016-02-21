@@ -1,0 +1,10 @@
+---
+- name: Configure /etc/security/limits.conf
+  sudo: yes
+  template: src=limits.conf.j2 dest=/etc/security/limits.conf
+  register: ulimit_change
+
+- name: Change ulimit for this session
+  sudo: yes
+  shell: "ulimit -n {{ limit_nofile }}" 
+  when: ulimit_change|changed

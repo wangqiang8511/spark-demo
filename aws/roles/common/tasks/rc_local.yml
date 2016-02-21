@@ -1,0 +1,4 @@
+---
+- name: rc_local file
+  sudo: yes
+  template: src=rc.local.j2 dest=/etc/rc.local

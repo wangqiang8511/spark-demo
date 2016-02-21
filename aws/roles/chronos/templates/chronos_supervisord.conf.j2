@@ -1,0 +1,12 @@
+[program:chronos]
+command=/opt/bin/start_chronos.sh
+autostart=true
+autorestart=true
+startretries=999
+redirect_stderr=True
+nodaemon = False
+debug = False
+stdout_logfile = /var/tmp/chronos.out
+stderr_logfile = /var/tmp/chronos.err
+loglevel = "info"
+stopasgroup=true

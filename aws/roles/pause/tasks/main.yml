@@ -1,0 +1,7 @@
+---
+- name: pause
+  sudo: yes
+  pause: 
+    seconds: "{{ seconds }}"
+  tags:
+    - pause

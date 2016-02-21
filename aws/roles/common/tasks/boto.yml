@@ -1,0 +1,6 @@
+---
+- name: install boto
+  sudo: yes
+  pip: "name=boto"
+  tags:
+    - bootstrap

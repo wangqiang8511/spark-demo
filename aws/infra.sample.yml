@@ -1,0 +1,5 @@
+---
+# Deployment 
+cluster_name: spark
+exhibitor_s3_bucket: "spark-config"
+exhibitor_config_prefix: "zkconfig"

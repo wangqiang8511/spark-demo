@@ -1,0 +1,7 @@
+---
+- name: restart marathon
+  sudo: yes
+  supervisorctl: 
+    name: marathon
+    state: restarted
+    supervisorctl_path: "{{ supervisord_exec_dir }}/supervisorctl"

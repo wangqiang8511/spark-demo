@@ -1,0 +1,5 @@
+---
+marathon_image: mesosphere/marathon
+marathon_image_tag: v0.15.1
+supervisord_conf_dir: /etc/supervisord
+supervisord_exec_dir: /usr/local/bin

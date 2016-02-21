@@ -1,0 +1,7 @@
+---
+- name: restart chronos
+  sudo: yes
+  supervisorctl: 
+    name: chronos
+    state: restarted
+    supervisorctl_path: "{{ supervisord_exec_dir }}/supervisorctl"

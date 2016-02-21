@@ -1,0 +1,12 @@
+[program:marathon]
+command=/opt/bin/start_marathon.sh
+autostart=true
+autorestart=true
+startretries=999
+redirect_stderr=True
+nodaemon = False
+debug = False
+stdout_logfile = /var/tmp/marathon.out
+stderr_logfile = /var/tmp/marathon.err
+loglevel = "info"
+stopasgroup=true

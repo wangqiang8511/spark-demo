@@ -1,0 +1,12 @@
+[program:mesos_master]
+command=/opt/bin/start_mesos_master.sh 
+autostart=true
+autorestart=true
+startretries=999
+redirect_stderr=True
+nodaemon = False
+debug = False
+stdout_logfile = /var/tmp/mesos_master.out
+stderr_logfile = /var/tmp/mesos_master.err
+loglevel = "info"
+stopasgroup=true

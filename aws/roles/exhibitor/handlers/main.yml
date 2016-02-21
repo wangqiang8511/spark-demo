@@ -1,0 +1,7 @@
+---
+- name: restart exhibitor
+  sudo: yes
+  supervisorctl: 
+    name: exhibitor
+    state: restarted
+    supervisorctl_path: "{{ supervisord_exec_dir }}/supervisorctl"

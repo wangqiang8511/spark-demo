@@ -1,0 +1,68 @@
+{
+  "id": "/hdfs",
+  "apps":
+  [
+		{
+      "id": "namenode",
+      "cmd": "/scripts/setup.sh hdfs namenode",
+      "cpus": 0.1,
+      "mem": 512.0,
+			"labels": {
+				"appname": "hdfs namenode"
+			},
+      "instances": 1,
+      "constraints": [["hostname", "like", "10.0.237.59"]],
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "wangqiang8511/hdfs-2.6.4:0.0.1",
+          "network": "HOST",
+          "parameters": [
+            { "key": "env", "value": "MASTER=10.0.237.59" }
+          ]
+        }
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "portIndex": 0,
+          "path": "/",
+          "gracePeriodSeconds": 300,
+          "intervalSeconds": 20,
+          "maxConsecutiveFailures": 3
+        }
+      ]
+    },
+    {
+      "id": "datanode",
+      "cmd": "/scripts/setup.sh hdfs datanode",
+      "cpus": 0.1,
+      "mem": 512.0,
+			"labels": {
+				"appname": "hdfs datanode"
+			},
+      "instances": 4,
+      "constraints": [["hostname", "UNIQUE"]],
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "wangqiang8511/hdfs-2.6.4:0.0.1",
+          "network": "HOST",
+          "parameters": [
+            { "key": "env", "value": "MASTER=10.0.237.59" }
+          ]
+        }
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "portIndex": 0,
+          "path": "/",
+          "gracePeriodSeconds": 300,
+          "intervalSeconds": 20,
+          "maxConsecutiveFailures": 3
+        }
+      ]
+    }
+  ]
+}

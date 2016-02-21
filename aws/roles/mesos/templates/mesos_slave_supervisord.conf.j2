@@ -1,0 +1,12 @@
+[program:mesos_slave]
+command=/opt/bin/start_mesos_slave.sh
+autostart=true
+autorestart=true
+startretries=999
+redirect_stderr=True
+nodaemon = False
+debug = False
+stdout_logfile = /var/tmp/mesos_slave.out
+stderr_logfile = /var/tmp/mesos_slave.err
+loglevel = "info"
+stopasgroup=true

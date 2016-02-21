@@ -1,0 +1,14 @@
+---
+- name: restart mesos master
+  sudo: yes
+  supervisorctl: 
+    name: mesos_master
+    state: restarted
+    supervisorctl_path: "{{ supervisord_exec_dir }}/supervisorctl"
+
+- name: restart mesos slave
+  sudo: yes
+  supervisorctl: 
+    name: mesos_slave
+    state: restarted
+    supervisorctl_path: "{{ supervisord_exec_dir }}/supervisorctl"

@@ -1,0 +1,12 @@
+---
+- name: start supervisord
+  sudo: yes
+  shell: "{{ supervisord_exec_dir }}/supervisord -c /etc/supervisord.conf"
+  ignore_errors: true 
+  register: start_supervisord
+  notify: reload supervisord
+
+- name: reload supervisord
+  sudo: yes
+  shell: "{{ supervisord_exec_dir }}/supervisorctl reload"
+  when: start_supervisord|failed

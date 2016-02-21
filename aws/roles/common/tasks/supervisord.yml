@@ -1,0 +1,21 @@
+---
+- name: install supervisord
+  sudo: yes
+  pip: "name=supervisor version={{ supervisord_version }}"
+  tags:
+    - bootstrap
+
+- name: ensuring required supervisord directories
+  sudo: yes
+  file: "path={{ supervisord_conf_dir }} state=directory"
+
+- name: add supervisord config
+  sudo: yes
+  template: src=supervisord.conf.j2 dest=/etc/supervisord.conf
+  notify:
+    - start supervisord
+
+- name: start supervisord
+  sudo: yes
+  shell: "{{ supervisord_exec_dir }}/supervisord -c /etc/supervisord.conf"
+  ignore_errors: true 

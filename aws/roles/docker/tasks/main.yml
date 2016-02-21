@@ -1,0 +1,55 @@
+---
+# Setup docker apt repo
+- name: add docker apt-key
+  sudo: yes
+  apt_key:
+    keyserver: "pgp.mit.edu"
+    id: 58118E89F3A912897C070ADBF76221572C52609D
+  tags:
+    - docker
+    - bootstrap
+
+- name: add docker apt-repo
+  sudo: yes
+  apt_repository:
+    repo: "deb https://apt.dockerproject.org/repo ubuntu-trusty main"
+    state: present
+  tags:
+    - docker
+    - bootstrap
+
+# install docker
+- name: install docker packages
+  sudo: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - linux-image-extra-{{ ansible_kernel }}
+    - docker-engine
+  tags:
+    - docker
+    - bootstrap
+
+# Setup docker default settings
+- name: update docker default settings
+  sudo: yes
+  template:
+    src: default_docker.j2
+    dest: /etc/default/docker
+  notify:
+    - restart docker
+  tags:
+    - docker
+    - bootstrap
+
+- name: enable docker
+  sudo: yes
+  service:
+    name: docker
+    enabled: yes
+    state: started
+  tags:
+    - docker
+    - bootstrap

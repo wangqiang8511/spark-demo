@@ -1,0 +1,18 @@
+#!/bin/bash
+
+CONTAINER_NAME=chronos
+ZK_HOSTS={%- for host in groups['role=master'] -%}
+{{ hostvars[host]['private_ipv4'] }}:2181,
+{%- endfor %}
+
+ZK_HOSTS=${ZK_HOSTS::-1}
+
+docker rm -f $CONTAINER_NAME
+docker run --name $CONTAINER_NAME \
+    -i \
+    --net=host \
+    {{ chronos_image }}:{{ chronos_image_tag }} \
+		/usr/bin/chronos run_jar \
+		--master zk://$ZK_HOSTS/mesos \
+		--zk_hosts $ZK_HOSTS \
+		--http_port 8082

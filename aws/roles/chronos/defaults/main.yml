@@ -1,0 +1,5 @@
+---
+chronos_image: mesosphere/chronos
+chronos_image_tag: chronos-2.4.0-0.1.20150828104228.ubuntu1404-mesos-0.27.0-0.2.190.ubuntu1404
+supervisord_conf_dir: /etc/supervisord
+supervisord_exec_dir: /usr/local/bin

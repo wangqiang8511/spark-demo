@@ -1,0 +1,9 @@
+#!/bin/bash
+
+service docker stop
+ip link set docker0 down
+brctl delbr docker0
+
+service docker start
+
+/usr/local/bin/supervisord

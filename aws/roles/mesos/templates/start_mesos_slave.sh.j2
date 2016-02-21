@@ -1,0 +1,17 @@
+#!/bin/bash
+
+CONTAINER_NAME=mesos-slave
+
+ZK_HOSTS=zk://{%- for host in groups['role=master'] -%}
+{{ hostvars[host]['private_ipv4'] }}:2181,
+{%- endfor %}
+
+ZK_HOSTS=${ZK_HOSTS::-1}
+
+docker rm -f $CONTAINER_NAME
+docker run --name $CONTAINER_NAME \
+    -i \
+    --net=host \
+		--privileged \
+    {{ mesos_slave_image }}:{{ mesos_slave_image_tag }} \
+		--master=$ZK_HOSTS/mesos \

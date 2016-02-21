@@ -1,0 +1,34 @@
+---
+- name: ensure customized bin
+  sudo: yes
+  file:
+    path: /opt/bin
+    state: directory
+  tags:
+    - chronos
+
+- name: config chronos supervisord
+  sudo: yes
+  template: src=chronos_supervisord.conf.j2 dest=/etc/supervisord/chronos.conf
+  notify: restart chronos
+  tags:
+    - chronos
+
+- name: setup start_chronos script
+  sudo: yes
+  template:
+    src: start_chronos.sh.j2
+    dest: /opt/bin/start_chronos.sh
+    mode: 0755
+  notify: restart chronos
+  tags:
+    - chronos
+
+- name: start chronos supervisord
+  sudo: yes
+  supervisorctl: 
+    name: chronos
+    state: present
+    supervisorctl_path: "{{ supervisord_exec_dir }}/supervisorctl"
+  tags:
+    - chronos

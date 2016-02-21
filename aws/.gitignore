@@ -1,0 +1,15 @@
+aws.tf
+*.tfstate
+*.tfstate.backup
+*.pem
+*.pub
+infra.yml
+bin
+local
+share
+lib
+lib64
+include
+pip-selfcheck.json
+.Python
+.terraform

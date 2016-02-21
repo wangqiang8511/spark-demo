@@ -1,0 +1,10 @@
+---
+exhibitor_image: wangqiang8511/exhibitor
+exhibitor_image_tag: 1.5.5
+exhibitor_s3_region: us-east-1
+exhibitor_s3_bucket: bigdata-tmp
+exhibitor_config_prefix: zkconfig
+supervisord_conf_dir: /etc/supervisord
+supervisord_exec_dir: /usr/local/bin
+cluster_name: zk
+exhibitor_size: 3

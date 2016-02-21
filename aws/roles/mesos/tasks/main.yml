@@ -1,0 +1,66 @@
+---
+- name: ensure customized bin
+  sudo: yes
+  file:
+    path: /opt/bin
+    state: directory
+  tags:
+    - mesos
+
+- name: config mesos master supervisord
+  sudo: yes
+  template: src=mesos_master_supervisord.conf.j2 dest=/etc/supervisord/mesos_master.conf
+  notify: restart mesos master
+  when: mesos_mode == "master"
+  tags:
+    - mesos
+
+- name: config mesos slave supervisord
+  sudo: yes
+  template: src=mesos_slave_supervisord.conf.j2 dest=/etc/supervisord/mesos_slave.conf
+  notify: restart mesos slave
+  when: mesos_mode == "slave"
+  tags:
+    - mesos
+
+- name: setup start_mesos_master script
+  sudo: yes
+  template:
+    src: start_mesos_master.sh.j2
+    dest: /opt/bin/start_mesos_master.sh
+    mode: 0755
+  notify: restart mesos master
+  when: mesos_mode == "master"
+  tags:
+    - mesos
+
+- name: setup start_mesos_slave script
+  sudo: yes
+  template:
+    src: start_mesos_slave.sh.j2
+    dest: /opt/bin/start_mesos_slave.sh
+    mode: 0755
+  notify: restart mesos slave
+  when: mesos_mode == "slave"
+  tags:
+    - mesos
+
+- name: start mesos master supervisord
+  sudo: yes
+  supervisorctl: 
+    name: mesos_master 
+    state: present
+    supervisorctl_path: "{{ supervisord_exec_dir }}/supervisorctl"
+  when: mesos_mode == "master"
+  tags:
+    - mesos
+
+- name: start mesos slave supervisord
+  sudo: yes
+  supervisorctl: 
+    name: mesos_slave 
+    state: present
+    supervisorctl_path: "{{ supervisord_exec_dir }}/supervisorctl"
+  when: mesos_mode == "slave"
+  tags:
+    - mesos

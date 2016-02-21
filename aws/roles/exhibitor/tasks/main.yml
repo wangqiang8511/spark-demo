@@ -1,0 +1,52 @@
+---
+- name: ensure customized bin
+  sudo: yes
+  file:
+    path: /opt/bin
+    state: directory
+  tags:
+    - exhibitor
+
+- name: ensure zookeeper data dir
+  sudo: yes
+  file:
+    path: /data/zookeeper/data
+    state: directory
+  tags:
+    - exhibitor
+
+- name: ensure zookeeper log dir
+  sudo: yes
+  file:
+    path: /data/zookeeper/log
+    state: directory
+  tags:
+    - exhibitor
+
+- name: setup start_exhibitor script
+  sudo: yes
+  template:
+    src: start_exhibitor.sh.j2
+    dest: /opt/bin/start_exhibitor.sh
+    mode: 0755
+  notify: restart exhibitor
+  tags:
+    - exhibitor
+
+- name: setup exhibitor supervisord config
+  sudo: yes
+  template:
+    src: exhibitor_supervisord.conf.j2
+    dest: "{{ supervisord_conf_dir }}/exhibitor.conf"
+  notify: restart exhibitor
+  tags:
+    - exhibitor
+
+- name: start exhibitor supervisord
+  sudo: yes
+  supervisorctl: 
+    name: exhibitor
+    state: present
+    supervisorctl_path: "{{ supervisord_exec_dir }}/supervisorctl"
+  tags:
+    - exhibitor

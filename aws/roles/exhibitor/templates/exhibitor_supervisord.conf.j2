@@ -1,0 +1,12 @@
+[program:exhibitor]
+command= /opt/bin/start_exhibitor.sh
+autostart=true
+autorestart=true
+startretries=999
+redirect_stderr=True
+nodaemon = False
+debug = False
+stdout_logfile = /var/tmp/exhibitor.out
+stderr_logfile = /var/tmp/exhibitor.err
+loglevel = "info"
+stopasgroup=true

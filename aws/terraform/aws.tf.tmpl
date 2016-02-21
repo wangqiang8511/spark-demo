@@ -1,0 +1,21 @@
+provider "aws" {
+  region = "ap-southeast-1"
+  access_key = "ACCESS_KEY"
+  secret_key = "SECRET_KEY"
+}
+
+module "aws-dc" {
+  source = "./terraform/aws"
+  availability_zone = "ap-southeast-1a"
+  master_type = "t2.large"
+  worker_type = "t2.large"
+  ssh_username = "ubuntu"
+  ssh_key = "spark.pub"
+  source_ami = "SOURCE_AMI"
+  master_count = 3
+  worker_count = 3
+  master_iam_profile = "MASTER_IAM_PROFILE"
+  worker_iam_profile = "WORKER_IAM_PROFILE"
+  long_name = "spark-demo"
+  short_name = "spark"
+}

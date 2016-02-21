@@ -1,0 +1,34 @@
+---
+- name: ensure customized bin
+  sudo: yes
+  file:
+    path: /opt/bin
+    state: directory
+  tags:
+    - marathon
+
+- name: config marathon supervisord
+  sudo: yes
+  template: src=marathon_supervisord.conf.j2 dest=/etc/supervisord/marathon.conf
+  notify: restart marathon
+  tags:
+    - marathon
+
+- name: setup start_marathon script
+  sudo: yes
+  template:
+    src: start_marathon.sh.j2
+    dest: /opt/bin/start_marathon.sh
+    mode: 0755
+  notify: restart marathon
+  tags:
+    - marathon
+
+- name: start marathon supervisord
+  sudo: yes
+  supervisorctl: 
+    name: marathon
+    state: present
+    supervisorctl_path: "{{ supervisord_exec_dir }}/supervisorctl"
+  tags:
+    - marathon
