@@ -10,7 +10,7 @@
 
 - hosts: all
   vars:
-    seconds: 30
+    seconds: 120
   roles:
     - pause
 
