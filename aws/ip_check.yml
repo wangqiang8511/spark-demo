@@ -1,0 +1,5 @@
+---
+- hosts: all
+  tasks:
+    - debug: var=hostvars[inventory_hostname]['private_ipv4']
+    - debug: var=hostvars[inventory_hostname]['public_ipv4']

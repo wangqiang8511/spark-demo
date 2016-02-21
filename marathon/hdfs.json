@@ -11,7 +11,7 @@
 				"appname": "hdfs namenode"
 			},
       "instances": 1,
-      "constraints": [["hostname", "LIKE", "10.0.237.59"]],
+      "constraints": [["hostname", "LIKE", ".*10.0.237.59.*"]],
       "container": {
         "type": "DOCKER",
         "docker": {
