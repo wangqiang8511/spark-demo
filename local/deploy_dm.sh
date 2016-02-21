@@ -165,14 +165,14 @@ function pull-spark-image {
 }
 
 function bootstrap {
-	# create-mesos-master-machine
-	# create-mesos-slave-machines
-	# start-zk
-	# start-mesos-master
-	# start-marathon
-	# start-chronos
-	# start-mesos-slaves
-	# update-all-etc-hosts
+	create-mesos-master-machine
+	create-mesos-slave-machines
+	start-zk
+	start-mesos-master
+	start-marathon
+	start-chronos
+	start-mesos-slaves
+	update-all-etc-hosts
 	pull-spark-image
 }
 

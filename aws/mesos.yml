@@ -29,7 +29,3 @@
 - hosts: role=master
   roles:
     - marathon
-
-- hosts: role=master
-  roles:
-    - chronos
