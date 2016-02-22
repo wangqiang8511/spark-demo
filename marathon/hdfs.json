@@ -2,23 +2,23 @@
   "id": "/hdfs",
   "apps":
   [
-		{
+    {
       "id": "namenode",
       "cmd": "/scripts/setup.sh hdfs namenode",
       "cpus": 0.1,
       "mem": 512.0,
-			"labels": {
-				"appname": "hdfs namenode"
-			},
+      "labels": {
+        "appname": "hdfs namenode"
+      },
       "instances": 1,
-      "constraints": [["hostname", "LIKE", ".*10.0.237.59.*"]],
+      "constraints": [["hostname", "LIKE", ".*10.0.130.147.*"]],
       "container": {
         "type": "DOCKER",
         "docker": {
           "image": "wangqiang8511/hdfs-2.6.4:0.0.1",
           "network": "HOST",
           "parameters": [
-            { "key": "env", "value": "MASTER=10.0.237.59" }
+            { "key": "env", "value": "MASTER=10.0.130.147" }
           ]
         }
       },
@@ -38,9 +38,9 @@
       "cmd": "/scripts/setup.sh hdfs datanode",
       "cpus": 0.1,
       "mem": 512.0,
-			"labels": {
-				"appname": "hdfs datanode"
-			},
+      "labels": {
+        "appname": "hdfs datanode"
+      },
       "instances": 4,
       "constraints": [["hostname", "UNIQUE"]],
       "dependencies": ["/hdfs/namenode"],
@@ -50,7 +50,7 @@
           "image": "wangqiang8511/hdfs-2.6.4:0.0.1",
           "network": "HOST",
           "parameters": [
-            { "key": "env", "value": "MASTER=10.0.237.59" }
+            { "key": "env", "value": "MASTER=10.0.130.147" }
           ]
         }
       },

@@ -4,8 +4,8 @@ set -e
 
 function bootstrap-cluster {
   terraform get
-	terraform plan
-	terraform apply
+  terraform plan
+  terraform apply
 }
 
 function provisioning-cluster {
@@ -18,8 +18,8 @@ function teardown-cluster {
 
 function bootstrap {
   bootstrap-cluster
-	sleep 60
-	provisioning-cluster
+  sleep 60
+  provisioning-cluster
 }
 
 function teardown {
@@ -28,10 +28,10 @@ function teardown {
 
 if [ X$1 == "Xteardown" ]
 then
-	teardown
+  teardown
 elif [ X$1 == "Xbootstrap" ]
 then
-	bootstrap
+  bootstrap
 else
-	echo "Need command like teardown|bootstrap"
+  echo "Need command like teardown|bootstrap"
 fi
