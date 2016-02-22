@@ -1,4 +1,31 @@
 ---
+# Add apt key
+- name: add apt key
+  sudo: yes
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: E56151BF
+  tags:
+    - mesos
+
+# Add mesos repo
+- name: add mesos repo
+  sudo: yes
+  apt_repository:
+    repo: "deb http://repos.mesosphere.com/ubuntu trusty main"
+  tags:
+    - mesos
+
+# Install mesos from repo
+- name: install mesos
+  sudo: yes
+  apt:
+    name: mesos=0.27.0-0.2.190.ubuntu1404
+    force: yes
+    update_cache: yes
+  tags:
+    - mesos
+
 - name: ensure customized bin
   sudo: yes
   file:

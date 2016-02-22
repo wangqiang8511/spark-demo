@@ -1,7 +1,5 @@
 #!/bin/bash
 
-CONTAINER_NAME=mesos-slave
-
 MESOS_WORK_DIR_SLAVE=/data/mesos/slave
 MESOS_SANDBOX_DIR=/data/mesos/sandbox
 ZK_HOSTS=zk://{%- for host in groups['role=master'] -%}
@@ -13,18 +11,6 @@ ZK_HOSTS=${ZK_HOSTS::-1}
 mkdir -p $MESOS_WORK_DIR_SLAVE
 mkdir -p $MESOS_SANDBOX_DIR
 
-docker rm -f $CONTAINER_NAME
-docker run --name $CONTAINER_NAME \
-    -i \
-    --net=host \
-    --privileged \
-    -v /usr/bin/docker:/usr/bin/docker:ro \
-    -v /var/run/docker.sock:/var/run/docker.sock:rw \
-    -v /sys:/sys:ro \
-		-v /lib/x86_64-linux-gnu/libsystemd-journal.so.0:/lib/x86_64-linux-gnu/libsystemd-journal.so.0:ro \
-		-v /usr/lib/x86_64-linux-gnu/libapparmor.so.1:/usr/lib/x86_64-linux-gnu/libapparmor.so.1:ro \
-    -v $MESOS_SANDBOX_DIR:/mnt/mesos/sandbox:rw \
-    -v $MESOS_WORK_DIR_SLAVE:/tmp/mesos:rw \
-    {{ mesos_slave_image }}:{{ mesos_slave_image_tag }} \
+mesos-slave \
     --master=$ZK_HOSTS/mesos \
     --containerizers=docker,mesos

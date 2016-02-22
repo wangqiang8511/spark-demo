@@ -10,7 +10,7 @@
 
 - hosts: all
   vars:
-    seconds: 120
+    seconds: 240
   roles:
     - pause
 
@@ -19,6 +19,12 @@
     mesos_mode: master
   roles:
     - mesos
+
+- hosts: all
+  vars:
+    seconds: 20
+  roles:
+    - pause
 
 - hosts: "role=master:role=worker"
   vars:
