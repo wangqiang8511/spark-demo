@@ -1,5 +1,5 @@
 {
-  "id": "/spark2",
+  "id": "/spark4",
   "apps":
   [
     {
@@ -20,7 +20,7 @@
             { "key": "env", "value": "SPARK_MASTER=mesos://zk://10.0.130.147:2181,10.0.56.97:2181,10.0.254.119:2181/mesos" },
             { "key": "env", "value": "SPARK_IMAGE=wangqiang8511/spark-mesos:1.6.0-0.27.0" },
             { "key": "env", "value": "PYSPARK_DRIVER_PYTHON=ipython2" },
-            { "key": "env", "value": "PYSPARK_DRIVER_PYTHON_OPTS=\"notebook --ip='*' --port=0\""},
+            { "key": "env", "value": "PYSPARK_DRIVER_PYTHON_OPTS=notebook --ip='*'"},
             { "key": "env", "value": "ROOT_LOG_LEVEL=INFO"} 
           ]
         }
